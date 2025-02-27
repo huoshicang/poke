@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Poke for React
 
-## Getting Started
+页面布局
+- 头部
+- 内容
+    - 总数信息
+    - 选择按钮
+    - 内容
+- 底部
 
-First, run the development server:
+整体：居中布局
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+总数信息、选择按钮：靠左对齐、允许换行
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+内容：网格布局（一行6列）靠左对齐
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+底部：居中
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 初步想法
+采用url传参，保证可以刷新页面后，数据不变
 
-## Learn More
+选中项设置：
+1. 选择类型
+   1. 用来渲染网页url  
+   可以实现多选，判断当前按钮项是否被选中
+2. 选择url
+   1. 用来获取内容  
+   存储多个选中项的url
+3. 获取到的内容
+   1. 用来渲染页面
 
-To learn more about Next.js, take a look at the following resources:
+## 组件
+- Header
+    - 渲染头部信息
+- Content
+    - Total
+      - 渲染总数信息
+    - Button
+        - 渲染选择按钮
+    - Info
+      - 渲染内容
+        - InfoCard
+          - 内容卡片
+- Footer
+    - 渲染翻页按钮
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
