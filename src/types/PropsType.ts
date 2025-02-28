@@ -8,6 +8,12 @@ export interface PokeButtonProps {
   setSelectedList: React.Dispatch<React.SetStateAction<SelectItemType[]>>,
 }
 
+export interface PokeFooterProps {
+  total: number,
+  currentPage: number,
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>,
+}
+
 
 export interface FetchTypeProps {
   selectItem: SelectItemType[];
@@ -22,6 +28,8 @@ export interface FetchInfoProps {
 export interface FetchPokeInfoProps {
   pokemonUrl: string;
 }
+
+
 
 
 

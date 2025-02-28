@@ -18,17 +18,21 @@ export default function PokeButton({selectedList, setSelectedList,}: PokeButtonP
     // 创建一个URLSearchParams对象
     const params = new URLSearchParams(searchParams);
 
-    // 设置type参数
     params.set('type', selectedList.map(item => item.name).join('&'));
+
+    // 保留其他参数
+    for (const [key, value] of searchParams.entries()) {
+      if (key !== 'type') {
+        params.set(key, value);
+      }
+    }
     // 更新URL
     router.replace(`?${params.toString()}`);
   }
 
 
   // 初始化
-  useEffect(() => {
-    setRouter()
-  }, [selectedList]);
+  useEffect(() => setRouter(), [selectedList]);
 
 
   // 切换选择

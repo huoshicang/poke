@@ -1,28 +1,49 @@
-import { useEffect, useState } from 'react';
-import { PokeInfoType, SelectItemType } from "@/types/types";
-import { FetchInfoProps } from "@/types/PropsType";
-import { FetchPokeInfoComponent } from "@/fetchData/PokeInfo";
+import {useEffect, useState} from 'react';
+import {PokeInfoType, SelectItemType} from "@/types/types";
+import {FetchInfoProps} from "@/types/PropsType";
+import {FetchPokeInfoComponent} from "@/fetchData/PokeInfo";
+import {useRouter, useSearchParams} from "next/navigation";
+import PokeFooter from "@/Components/PokeFooter";
 
-export const FetchInfoComponent: React.FC<FetchInfoProps> = ({ selectedList, setTotal }) => {
+export const FetchInfoComponent: React.FC<FetchInfoProps> = ({selectedList, setTotal}) => {
 
   // 数据
   const [data, setData] = useState<PokeInfoType[]>([]);
 
   // 加载
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   // 错误
   const [error, setError] = useState<string | null>(null);
 
   // 获取URL中的页码参数
-  const searchParams = new URLSearchParams(location.search);
-  const currentPage = parseInt(searchParams.get('page') || '1', 10);
-  const itemsPerPage = 20;
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  // 当前页码，获取每页数量
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   // 获取数据
   useEffect(() => {
+
+    // 创建一个URLSearchParams对象
+
+    const params = new URLSearchParams(searchParams);
+    params.set('page', currentPage.toString());
+
+    // 保留其他参数
+    for (const [key, value] of searchParams.entries()) {
+      if (key !== 'page') {
+        params.set(key, value);
+      }
+    }
+    // 更新URL
+    router.replace(`?${params.toString()}`);
+
     const fetchData = async () => {
       try {
+
         // 重置数据
         setLoading(true);
         setData([]);
@@ -61,20 +82,16 @@ export const FetchInfoComponent: React.FC<FetchInfoProps> = ({ selectedList, set
   if (loading) return <div>loading...</div>;
 
   // 计算当前页的数据
-  const paginatedData = data.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  const paginatedData = data.slice((currentPage - 1) * 24, currentPage * 24);
 
   return (
     <div>
       <div className="grid grid-cols-6 gap-x-16 gap-y-6">
         {paginatedData.map((item: PokeInfoType, index: number) => (
-          <FetchPokeInfoComponent key={index} pokemonUrl={item.url} />
+          <FetchPokeInfoComponent key={index} pokemonUrl={item.url}/>
         ))}
       </div>
-      <div className="pagination">
-        <button onClick={() => { /* 上一页逻辑 */ }}>Previous</button>
-        <span>Page {currentPage}</span>
-        <button onClick={() => { /* 下一页逻辑 */ }}>Next</button>
-      </div>
+      <PokeFooter currentPage={currentPage} setCurrentPage={setCurrentPage} total={data.length} />
     </div>
   );
 };

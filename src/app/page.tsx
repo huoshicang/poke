@@ -12,7 +12,6 @@ export default function Home() {
     <div className="pl-25 pr-25">
       <PokeHeader />
       <PokeContent />
-      <PokeFooter />
     </div>
   );
 }
