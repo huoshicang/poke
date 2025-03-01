@@ -28,16 +28,16 @@ export const FetchInfoComponent: React.FC<FetchInfoProps> = ({selectedList, setT
   useEffect(() => {
 
     // 创建一个URLSearchParams对象
-
     const params = new URLSearchParams(searchParams);
-    params.set('page', currentPage.toString());
-
-    // 保留其他参数
-    for (const [key, value] of searchParams.entries()) {
-      if (key !== 'page') {
-        params.set(key, value);
-      }
+    
+    // 确保type参数存在
+    if (selectedList.length > 0) {
+      params.set('type', selectedList.map(item => item.name).join(','));
     }
+    
+    // 设置页码
+    params.set('page', currentPage.toString());
+    
     // 更新URL
     router.replace(`?${params.toString()}`);
 
